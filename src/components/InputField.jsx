@@ -61,34 +61,22 @@ const InputField = ({
     if (isOpen) setIsOpen(false);
   });
 
-  const onKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      // enter key
-      setInput(data[active].name);
-    } else if (e.keyCode === 38) {
-      // up arrow
-      return active === 0 ? null : setActive(active - 1);
-    } else if (e.keyCode === 40) {
-      // down arrow
-      console.log('yes');
-      console.log(active);
-      return active - 1 === data.length - 2 ? null : setActive(active + 1);
-    } else if (e.keyCode === 27) {
-      e.preventDefault();
-      setIsOpen(false);
-    }
-  };
-
   const onKeyUp = (e) => {
     const keyCode = e.keyCode;
-
-    if (
-      type === 'async' &&
-      keyCode !== 13 &&
-      keyCode !== 38 &&
-      keyCode !== 40 &&
-      keyCode !== 27
-    ) {
+    if (keyCode === 13) {
+      // enter key
+      setInput(data[active].name);
+    } else if (keyCode === 38) {
+      // up arrow
+      return active === 0 ? null : setActive(active - 1);
+    } else if (keyCode === 40) {
+      // down arrow
+      return active - 1 === data.length - 2 ? null : setActive(active + 1);
+    } else if (keyCode === 27) {
+      // esc
+      e.preventDefault();
+      setIsOpen(false);
+    } else {
       handleSearch(e);
     }
   };
@@ -151,13 +139,13 @@ const InputField = ({
           <input
             ref={setTriggerRef}
             onKeyUp={onKeyUp}
-            onKeyDown={onKeyDown}
             onChange={(e) => setInput(e.target.value)}
             name={name}
             value={input}
             type="text"
             className="block w-full p-2 pl-10 mt-1 text-gray-500 border rounded-md shadow-sm outline-none focus:ring-2 focus:border-0 ring-indigo-300"
             placeholder="Type to begin search"
+            disabled={disable}
           />
           {type === 'async' && isLoading && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">

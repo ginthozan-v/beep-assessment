@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getCountryList, getCountryListAsync } from '../services/country';
+import React, { useState } from 'react';
+import { getCountryListAsync } from '../services/country';
 import InputField from './InputField';
 
 function debounce(callback, limit) {
@@ -19,17 +19,9 @@ function filterByValue(array, value) {
 }
 
 const Form = () => {
-  const [syncState, setSyncState] = useState([]);
   const [asyncState, setAsyncState] = useState([]);
-  const [syncOpen, setSyncOpen] = useState(false);
   const [asyncOpen, setAsyncOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const syncSearch = () => {
-    setSyncOpen(true);
-    const response = getCountryList();
-    setSyncState(response);
-  };
 
   const asyncSearch = async (e) => {
     setIsLoading(true);
@@ -63,17 +55,6 @@ const Form = () => {
           setIsOpen={setAsyncOpen}
           handleSearch={(e) => handleOnChange(e)}
         />
-        {/* <InputField
-          name="input-2"
-          label="Sync Search"
-          description="With default display and search on focus"
-          data={syncState}
-          disable={false}
-          isOpen={syncOpen}
-          setIsOpen={setSyncOpen}
-          handleSearch={syncSearch}
-          handleFocus={syncSearch}
-        /> */}
       </div>
     </div>
   );
